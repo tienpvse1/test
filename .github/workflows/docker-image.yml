@@ -14,5 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+    - name: build the project
+      run: |
+        npm i
+        npm run build:all
+    - name: stop the server
+      run: |
+        docker-compose down
+        docker image prune -a -f
+    - name: start the server
+      run: docker-compose up -d
